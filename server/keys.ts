@@ -8,7 +8,7 @@ type Keys = {
   pgPort?: number;
 };
 
-const keys: Keys = {
+export const keys: Keys = {
   redisHost: process.env.REDIS_HOST,
   redisPort: Number(process.env.REDIS_PORT),
   pgUser: process.env.PGUSER,
@@ -17,5 +17,3 @@ const keys: Keys = {
   pgPassword: process.env.PGPASSWORD,
   pgPort: Number(process.env.PGPORT)
 };
-
-export default keys;
