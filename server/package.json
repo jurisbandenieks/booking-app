@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/index",
-    "dev": "nodemon index.ts"
+    "build": "tsc",
+    "start": "node ./dist/index",
+    "dev": "nodemon -L -e ts --exec \"npm run build && npm start\"",
+    "migrate": "node-pg-migrate",
+    "migrate:up": "node-pg-migrate up"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +29,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "node-pg-migrate": "^6.2.2",
     "pg": "^8.11.2",
     "redis": "^4.6.7"
   }
