@@ -1,17 +1,18 @@
-import { useEffect } from "react";
-import axios from "axios";
+import { Routing } from "./routes";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const queryClient = new QueryClient();
+const theme = createTheme();
 
 function App() {
-  useEffect(() => {
-    const checkServer = async () => {
-      const { data } = await axios.get("api/");
-      console.log(data);
-    };
-
-    checkServer();
-  }, []);
-
-  return <>Booking App</>;
+  return (
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Routing />
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
 }
 
 export default App;
