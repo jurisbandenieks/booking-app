@@ -10,12 +10,13 @@ export default defineConfig({
     host: "0.0.0.0",
     port: PORT,
     hmr: {
+      overlay: false,
       host: "localhost",
-      protocol: "ws"
+      protocol: "ws",
+      clientPort: PORT
     },
     watch: {
       usePolling: true
     }
-  },
-  base: "/client"
+  }
 });
