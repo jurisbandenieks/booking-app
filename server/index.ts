@@ -23,7 +23,7 @@ connectToDB();
 
 // endpoints
 app.get("/", (reg: Request, res: Response) => {
-  res.send("API is working");
+  res.send({ message: "API is running" });
 });
 
 app.listen(PORT, () => {
