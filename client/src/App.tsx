@@ -3,7 +3,9 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const queryClient = new QueryClient();
-const theme = createTheme();
+const theme = createTheme({
+  typography: { fontFamily: ["Roboto", "sans-serif"].join(",") }
+});
 
 function App() {
   return (
