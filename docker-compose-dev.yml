@@ -42,6 +42,8 @@ services:
   client:
     environment:
       - WDS_SOCKET_PORT=0
+    ports:
+      - "3000:3000"
     build:
       dockerfile: Dockerfile.dev
       context: ./client
