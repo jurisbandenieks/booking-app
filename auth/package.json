@@ -1,16 +1,13 @@
 {
-  "name": "server",
+  "name": "auth",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/index",
-    "dev": "nodemon -L -e ts --exec \"npm run build && npm start\"",
-    "migrate": "node-pg-migrate",
-    "migrate:up": "node-pg-migrate up"
+    "dev": "nodemon -L -e ts --exec \"npm run build && npm start\""
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -28,9 +25,9 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-openid-connect": "^2.16.0",
     "helmet": "^7.0.0",
     "morgan": "^1.10.0",
-    "node-pg-migrate": "^6.2.2",
     "pg": "^8.11.2",
     "redis": "^4.6.7"
   }
