@@ -9,10 +9,14 @@ export const Routing = () => {
     {
       path: "/",
       element: isAuth ? (
-        <Dashboard />
+        <Navigate to="/dashboard" state={{ from: location }} replace />
       ) : (
         <Navigate to="/login" state={{ from: location }} replace />
       )
+    },
+    {
+      path: "dashboard",
+      element: <Dashboard />
     },
     {
       path: "login",

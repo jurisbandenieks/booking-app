@@ -1,16 +1,8 @@
-import { useQuery } from "react-query";
-import { checkApi } from "../../api";
-import { Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from "@mui/material";
 
 export const Login = () => {
-  const { data } = useQuery("todos", checkApi);
+  const { loginWithRedirect } = useAuth0();
 
-  console.log(data);
-
-  useEffect(() => {
-    window.location.replace("/auth/login");
-  }, []);
-
-  return <Typography>Redirecting...</Typography>;
+  return <Button onClick={() => loginWithRedirect()}>Log In</Button>;
 };
