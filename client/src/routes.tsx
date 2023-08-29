@@ -1,23 +1,18 @@
-import { Navigate, useLocation, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import { Dashboard, Login, NotFound } from "./views";
+import { ProtectedRoute } from "./components";
 
 export const Routing = () => {
-  const isAuth = false;
-  const location = useLocation();
-
   return useRoutes([
     {
       path: "/",
-      element: isAuth ? (
-        <Navigate to="/dashboard" state={{ from: location }} replace />
-      ) : (
-        <Navigate to="/login" state={{ from: location }} replace />
+      element: (
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
       )
     },
-    {
-      path: "dashboard",
-      element: <Dashboard />
-    },
+
     {
       path: "login",
       element: <Login />
