@@ -4,16 +4,33 @@ import { BrowserRouter } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import App from "./App.tsx";
 import "./index.scss";
+import history from "./utils/history";
+import { getConfig } from "./config";
+
+const onRedirectCallback = (appState: any) => {
+  history.push(
+    appState && appState.returnTo ? appState.returnTo : window.location.pathname
+  );
+};
+
+// Please see https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html
+// for a full list of the available properties on the provider
+const config = getConfig();
+
+const providerConfig = {
+  domain: config.domain,
+  clientId: config.clientId,
+  onRedirectCallback,
+  useRefreshTokens: true,
+  authorizationParams: {
+    redirect_uri: window.location.origin,
+    ...(config.audience ? { audience: config.audience } : null)
+  }
+};
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="dev-rxfrw6obup4z0hez.us.auth0.com"
-      clientId="yQs1wdBM1E2iigrTz73NrOTkz4Xkp71X"
-      authorizationParams={{
-        redirect_uri: "http://localhost:3050/"
-      }}
-    >
+    <Auth0Provider {...providerConfig}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
