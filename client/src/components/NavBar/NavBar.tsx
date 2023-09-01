@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import {
   Box,
   Drawer,
@@ -9,15 +8,19 @@ import {
   ListItemButton,
   ListItemText,
   Toolbar,
-  Typography
+  Typography,
+  AppBar
 } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const NavBar = () => {
-  const { logout } = useAuth0();
   const [state, setState] = useState(false);
+  const [user] = useAuthState(auth);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -31,6 +34,10 @@ export const NavBar = () => {
 
       setState(open);
     };
+
+  const logout = () => {
+    signOut(auth);
+  };
 
   const list = (
     <Box
@@ -48,9 +55,7 @@ export const NavBar = () => {
             <ListItemText
               primary="Logout"
               aria-label="logout from profile"
-              onClick={() =>
-                logout({ logoutParams: { returnTo: window.location.origin } })
-              }
+              onClick={() => logout()}
             />
           </ListItemButton>
         </ListItem>
@@ -60,17 +65,46 @@ export const NavBar = () => {
 
   return (
     <>
-      <Toolbar sx={{ display: "flex", alignItems: "center" }}>
-        <IconButton
-          sx={{ marginRight: "12px" }}
-          color="primary"
-          aria-label="open menu sidebar"
-          onClick={toggleDrawer(true)}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography>Booking App</Typography>
-      </Toolbar>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed">
+          <Toolbar
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                sx={{ marginRight: "12px" }}
+                color="primary"
+                aria-label="open menu sidebar"
+                onClick={toggleDrawer(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography>Booking App</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Typography>Hello, {user?.email}</Typography>
+              <IconButton
+                sx={{ marginLeft: "12px" }}
+                color="primary"
+                aria-label="logout from profile"
+                onClick={() => logout()}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
         {list}
       </Drawer>

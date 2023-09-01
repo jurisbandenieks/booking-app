@@ -1,4 +1,4 @@
-import { config } from "./assets/auth_config";
+import { auth0Config } from "./config/auth0";
 
 export function getConfig() {
   // Configure the audience here. By default, it will take whatever is in the config
@@ -8,11 +8,13 @@ export function getConfig() {
   // If this resolves to `null`, the API page changes to show some helpful info about what to do
   // with the audience.
   const audience =
-    config.audience && config.audience !== "/auth" ? config.audience : null;
+    auth0Config.audience && auth0Config.audience !== "/auth"
+      ? auth0Config.audience
+      : null;
 
   return {
-    domain: config.domain,
-    clientId: config.clientId,
+    domain: auth0Config.domain,
+    clientId: auth0Config.clientId,
     ...(audience ? { audience } : null)
   };
 }

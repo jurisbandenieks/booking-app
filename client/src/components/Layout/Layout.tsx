@@ -1,10 +1,9 @@
-import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { Outlet } from "react-router";
-import { Loading, NavBar } from "..";
+import { NavBar } from "..";
 import { Box } from "@mui/system";
 import { CssBaseline } from "@mui/material";
 
-const Layout: React.FC = () => {
+export const Layout: React.FC = () => {
   return (
     <Box>
       <CssBaseline />
@@ -25,7 +24,3 @@ const Layout: React.FC = () => {
     </Box>
   );
 };
-
-export const LayoutWithAuth = withAuthenticationRequired(Layout, {
-  onRedirecting: () => <Loading />
-});
