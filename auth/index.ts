@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
+import { verifyToken } from "./middleware";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 app.use(cors());
@@ -24,18 +26,12 @@ const connectToDB = async () => {
 };
 connectToDB();
 
-// Firebase setup
-import { verifyToken } from "./middleware";
-import { RequestWithUser } from "./types";
-
 // endpoints
 app.get("/", verifyToken, (req: Request, res: Response) => {
   res.send({ message: "Auth is running" });
 });
 
-app.get("/profile", verifyToken, (req: RequestWithUser, res: Response) => {
-  res.send({ user: req.user });
-});
+app.get("/users/new-user", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
