@@ -1,20 +1,23 @@
-import { auth } from "../../config";
+import { useEffect, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { Box, TextField, Divider, Button, Typography } from "@mui/material";
+
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
-  signInWithRedirect
+  signInWithRedirect,
+  createUserWithEmailAndPassword
 } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Box, TextField, Divider, Button } from "@mui/material";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { auth } from "../../config";
 import { Loading } from "../../components";
 
 type Inputs = {
   email: string;
   password: string;
+  repeatPassword?: string;
 };
 
 export const Login = () => {
@@ -25,6 +28,7 @@ export const Login = () => {
   } = useForm<Inputs>();
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
+  const [isRegister, setIsRegister] = useState(false);
 
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
@@ -38,7 +42,12 @@ export const Login = () => {
     password
   }) => {
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
+      let res;
+      if (isRegister) {
+        res = await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        res = await signInWithEmailAndPassword(auth, email, password);
+      }
       console.log(res);
     } catch (error) {
       console.error(error);
@@ -81,6 +90,7 @@ export const Login = () => {
       }}
     >
       <Box sx={{ border: "1px black solid", p: { xs: "8px", sm: "16px" } }}>
+        <Typography>Booking App</Typography>
         <Box
           component="form"
           sx={{
@@ -112,6 +122,19 @@ export const Login = () => {
             aria-label="password login input"
           />
 
+          {isRegister && (
+            <TextField
+              id="password-repeat-input"
+              label="Repeat password"
+              variant="outlined"
+              type="password"
+              error={!!errors.password}
+              margin="normal"
+              {...(register("repeatPassword"), { required: isRegister })}
+              aria-label="password repeat input"
+            />
+          )}
+
           <Box
             sx={{
               display: "grid",
@@ -120,9 +143,14 @@ export const Login = () => {
               margin: "24px 0"
             }}
           >
-            <Button variant="outlined">Sign up</Button>
+            <Button
+              variant="outlined"
+              onClick={() => setIsRegister(!isRegister)}
+            >
+              {!isRegister ? "Sign Up" : "Cancel"}
+            </Button>
             <Button variant="contained" type="submit">
-              Sign in
+              Sign {isRegister ? "up" : "in"}
             </Button>
           </Box>
         </Box>

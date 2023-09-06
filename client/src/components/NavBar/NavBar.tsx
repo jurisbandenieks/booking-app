@@ -95,7 +95,7 @@ export const NavBar = () => {
               <Typography>Hello, {user?.email}</Typography>
               <IconButton
                 sx={{ marginLeft: "12px" }}
-                color="primary"
+                color="info"
                 aria-label="logout from profile"
                 onClick={() => logout()}
               >
