@@ -1,18 +1,10 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+import { auth } from "../config";
 
-const { getAccessTokenSilently } = useAuth0();
+export const checkStatus = async () => {
+  const token = await auth.currentUser?.getIdToken();
 
-export const updateUser = async () => {
-  try {
-    const token = await getAccessTokenSilently();
-
-    await axios.get(`/auth/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  return await axios.get("/auth/profile/", {
+    headers: { Authorization: token }
+  });
 };

@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { auth } from "express-oauth2-jwt-bearer";
 import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
@@ -25,24 +24,17 @@ const connectToDB = async () => {
 };
 connectToDB();
 
-//  Redis setup
-
-// Authorization middleware. When used, the Access Token must
-// exist and be verified against the Auth0 JSON Web Key Set.
-const checkJwt = auth({
-  audience: "{yourApiIdentifier}",
-  issuerBaseURL: `https://dev-rxfrw6obup4z0hez.us.auth0.com/`
-});
+// Firebase setup
+import { verifyToken } from "./middleware";
+import { RequestWithUser } from "./types";
 
 // endpoints
-app.get("/", checkJwt, (req: Request, res: Response) => {
+app.get("/", verifyToken, (req: Request, res: Response) => {
   res.send({ message: "Auth is running" });
 });
 
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-
-app.get("/profile", checkJwt, (req: Request, res: Response) => {
-  res.send({ message: "Profile is valid" });
+app.get("/profile", verifyToken, (req: RequestWithUser, res: Response) => {
+  res.send({ user: req.user });
 });
 
 app.listen(PORT, () => {
