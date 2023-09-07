@@ -57,6 +57,8 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
+    ports:
+      - "5001:5001"
   client:
     depends_on:
       - api

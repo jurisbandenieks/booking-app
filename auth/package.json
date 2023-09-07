@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/index",
-    "dev": "nodemon -L -e ts --exec \"npm run build && npm start\""
+    "dev": "nodemon -L -e ts --exec \"npm run build && npm start\"",
+    "firebase:emulator": "firebase emulators:start"
   },
   "author": "",
   "license": "ISC",

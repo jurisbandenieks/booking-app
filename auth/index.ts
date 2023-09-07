@@ -31,7 +31,7 @@ app.get("/", verifyToken, (req: Request, res: Response) => {
   res.send({ message: "Auth is running" });
 });
 
-app.get("/users/new-user", userRoutes);
+app.use("/users", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
