@@ -9,24 +9,24 @@ exports.up = (pgm) => {
     time: { type: "time", notNull: true },
     capacity: { type: "integer", notNull: true },
     statuss: { type: "varchar(1000)", notNull: true },
-    minAmount: { type: "integer", notNull: true },
-    pendingPeriod: { type: "integer", notNull: true },
-    isMemberOnly: { type: "boolean" },
+    min_amount: { type: "integer", notNull: true },
+    pending_period: { type: "integer", notNull: true },
+    is_member_only: { type: "boolean" },
     additionalDiscount: { type: "integer" },
-    hasDynamicPricing: { type: "boolean" },
-    chargeId: {
+    has_dynamic_pricing: { type: "boolean" },
+    charge_id: {
       type: "integer",
       notNull: true,
       references: '"charges"',
       onDelete: "cascade"
     },
-    resourceId: {
+    resource_id: {
       type: "integer",
       notNull: true,
       references: '"resources"',
       onDelete: "cascade"
     },
-    createdAt: {
+    created_at: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp")
@@ -35,19 +35,19 @@ exports.up = (pgm) => {
 
   pgm.createTable("event_extras", {
     id: "id",
-    eventId: {
+    event_id: {
       type: "integer",
       notNull: true,
       references: '"events"',
       onDelete: "cascade"
     },
-    extraId: {
+    extra_id: {
       type: "integer",
       notNull: true,
       references: '"extras"',
       onDelete: "cascade"
     },
-    createdAt: {
+    created_at: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp")

@@ -10,7 +10,7 @@ exports.up = (pgm) => {
     region: { type: "varchar(1000)" },
     address: { type: "varchar(1000)", notNull: true },
     phoneNumber: { type: "varchar(1000)", notNull: true },
-    createdAt: {
+    created_at: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp")

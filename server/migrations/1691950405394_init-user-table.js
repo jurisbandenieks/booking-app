@@ -5,13 +5,12 @@ exports.shorthands = undefined;
 exports.up = (pgm) => {
   pgm.createTable("users", {
     id: "id",
-    firstName: { type: "varchar(1000)", notNull: true },
-    lastName: { type: "varchar(1000)", notNull: true },
-    profilePicture: { type: "varchar(1000)", notNull: true },
-    phoneNumber: { type: "varchar(1000)", notNull: true },
+    first_name: { type: "varchar(1000)" },
+    last_name: { type: "varchar(1000)" },
+    profile_picture: { type: "varchar(1000)" },
+    phone_number: { type: "varchar(1000)" },
     email: { type: "varchar(1000)", notNull: true },
-    password: { type: "varchar(1000)", notNull: true },
-    createdAt: {
+    created_at: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp")
@@ -21,13 +20,13 @@ exports.up = (pgm) => {
   pgm.createTable("blacklist", {
     id: "id",
     reason: { type: "varchar(1000)", notNull: true },
-    userId: {
+    user_id: {
       type: "integer",
       notNull: true,
       references: '"users"',
       onDelete: "cascade"
     },
-    createdAt: {
+    created_at: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp")
@@ -37,19 +36,19 @@ exports.up = (pgm) => {
   pgm.createTable("admins", {
     id: "id",
     scopes: { type: "text[]", notNull: true },
-    userId: {
+    user_id: {
       type: "integer",
       notNull: true,
       references: '"users"',
       onDelete: "cascade"
     },
-    companyId: {
+    company_id: {
       type: "integer",
       notNull: true,
       references: '"companies"',
       onDelete: "cascade"
     },
-    createdAt: {
+    created_at: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp")

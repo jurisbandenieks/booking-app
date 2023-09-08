@@ -2,26 +2,19 @@ import { Response, Request } from "express";
 import pgClient from "../config/db";
 
 // @desc    Insert user
-// @route   POST /auth/user/
+// @route   POST /auth/user/create-user
 // @access  Public route
 export const insertUser = async (req: Request, res: Response) => {
-  const { user } = req.body;
+  console.log(req.body);
+  const { firstName, lastName, profilePicture, phoneNumber, email } = req.body;
   const queryText = `
-    INSERT INTO users (id, firstName, lastName, profilePicture, phoneNumber, email, password, createdAt)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, current_timestamp)
+    INSERT INTO users (first_name, last_name, profile_picture, phone_number, email)
+    VALUES ($1, $2, $3, $4, $5)
     ON CONFLICT (id)
     DO NOTHING
     RETURNING id;
   `;
-  const values = [
-    user.id,
-    user.firstName,
-    user.lastName,
-    user.profilePicture,
-    user.phoneNumber,
-    user.email,
-    user.password
-  ];
+  const values = [firstName, lastName, profilePicture, phoneNumber, email];
 
   try {
     const result = await pgClient.query(queryText, values);

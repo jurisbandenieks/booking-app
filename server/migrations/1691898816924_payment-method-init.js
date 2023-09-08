@@ -11,13 +11,13 @@ exports.up = (pgm) => {
 
   pgm.createTable("company_payment_methods", {
     id: "id",
-    companyId: {
+    company_id: {
       type: "integer",
       notNull: true,
       references: '"companies"',
       onDelete: "cascade"
     },
-    paymentMethodId: {
+    payment_method_id: {
       type: "integer",
       notNull: true,
       references: '"payment_methods"',

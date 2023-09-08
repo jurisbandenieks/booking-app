@@ -5,19 +5,19 @@ exports.shorthands = undefined;
 exports.up = (pgm) => {
   pgm.createTable("members", {
     id: "id",
-    userId: {
+    user_id: {
       type: "integer",
       notNull: true,
       references: '"users"',
       onDelete: "cascade"
     },
-    resourceId: {
+    resource_id: {
       type: "integer",
       notNull: true,
       references: '"resources"',
       onDelete: "cascade"
     },
-    createdAt: {
+    created_at: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp")
