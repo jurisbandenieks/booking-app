@@ -6,6 +6,7 @@ type Keys = {
   pgDatabase?: string;
   pgPassword?: string;
   pgPort?: number;
+  nodeEnv?: string;
 };
 
 export const keys: Keys = {
@@ -15,5 +16,6 @@ export const keys: Keys = {
   pgHost: process.env.PGHOST,
   pgDatabase: process.env.PGDATABASE,
   pgPassword: process.env.PGPASSWORD,
-  pgPort: Number(process.env.PGPORT)
+  pgPort: Number(process.env.PGPORT),
+  nodeEnv: process.env.NODE_ENV
 };

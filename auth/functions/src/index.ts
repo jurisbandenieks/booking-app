@@ -14,8 +14,6 @@ export const createUser = auth.user().onCreate(async (user) => {
   };
 
   try {
-    console.log("Creating a new user", userData);
-
     await axios.post(url, userData);
   } catch (error) {
     console.error(`Failed to post to ${url}`, error);

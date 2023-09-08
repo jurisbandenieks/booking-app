@@ -5,12 +5,11 @@ import pgClient from "../config/db";
 // @route   POST /auth/user/create-user
 // @access  Public route
 export const insertUser = async (req: Request, res: Response) => {
-  console.log(req.body);
   const { firstName, lastName, profilePicture, phoneNumber, email } = req.body;
   const queryText = `
     INSERT INTO users (first_name, last_name, profile_picture, phone_number, email)
     VALUES ($1, $2, $3, $4, $5)
-    ON CONFLICT (id)
+    ON CONFLICT (email)
     DO NOTHING
     RETURNING id;
   `;

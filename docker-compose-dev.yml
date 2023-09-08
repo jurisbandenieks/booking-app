@@ -57,6 +57,7 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
+      - NODE_ENV=development
     ports:
       - "5001:5001"
   client:
