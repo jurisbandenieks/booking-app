@@ -9,7 +9,7 @@ exports.up = (pgm) => {
     country: { type: "varchar(1000)", notNull: true },
     region: { type: "varchar(1000)" },
     address: { type: "varchar(1000)", notNull: true },
-    phoneNumber: { type: "varchar(1000)", notNull: true },
+    phone_number: { type: "varchar(1000)", notNull: true },
     created_at: {
       type: "timestamp",
       notNull: true,

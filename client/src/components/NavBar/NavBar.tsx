@@ -3,20 +3,18 @@ import {
   Box,
   Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Toolbar,
   Typography,
-  AppBar
+  AppBar,
+  Divider
 } from "@mui/material";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Public } from "../../links";
+import { Private } from "../../links/private";
 
 export const NavBar = () => {
   const [state, setState] = useState(false);
@@ -46,20 +44,9 @@ export const NavBar = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Logout"
-              aria-label="logout from profile"
-              onClick={() => logout()}
-            />
-          </ListItemButton>
-        </ListItem>
-      </List>
+      <Public />
+      <Divider />
+      <Private />
     </Box>
   );
 

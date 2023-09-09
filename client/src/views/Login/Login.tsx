@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Box, TextField, Divider, Button, Typography } from "@mui/material";
-
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
@@ -34,7 +33,7 @@ export const Login = () => {
   const facebookProvider = new FacebookAuthProvider();
 
   useEffect(() => {
-    if (user) navigate("/");
+    if (!!user?.email) navigate("/");
   }, [user, loading]);
 
   const signInWithEmail: SubmitHandler<Inputs> = async ({
@@ -107,7 +106,7 @@ export const Login = () => {
             type="text"
             error={!!errors.email}
             margin="normal"
-            {...(register("email"), { required: true })}
+            {...register("email", { required: true })}
             aria-label="email login input"
           />
 
@@ -118,7 +117,7 @@ export const Login = () => {
             type="password"
             error={!!errors.password}
             margin="normal"
-            {...(register("password"), { required: true })}
+            {...register("password", { required: true })}
             aria-label="password login input"
           />
 
@@ -130,7 +129,7 @@ export const Login = () => {
               type="password"
               error={!!errors.password}
               margin="normal"
-              {...(register("repeatPassword"), { required: isRegister })}
+              {...register("repeatPassword", { required: isRegister })}
               aria-label="password repeat input"
             />
           )}
