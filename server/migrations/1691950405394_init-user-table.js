@@ -9,7 +9,7 @@ exports.up = (pgm) => {
     last_name: { type: "varchar(1000)" },
     profile_picture: { type: "varchar(1000)" },
     phone_number: { type: "varchar(1000)" },
-    email: { type: "varchar(1000)", notNull: true },
+    email: { type: "varchar(1000)", notNull: true, unique: true },
     created_at: {
       type: "timestamp",
       notNull: true,

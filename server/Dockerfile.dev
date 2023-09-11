@@ -6,4 +6,4 @@ RUN npm install
 COPY . .
 # Install node-pg-migrate globally
 RUN npm install -g node-pg-migrate
-CMD ["sh", "-c", "node-pg-migrate up && npm run dev"]
+CMD ["sh", "-c", "npm run start:dev"]

@@ -1,7 +1,2 @@
-import axios from "axios";
-
-export const checkApi = async () => {
-  const { data } = await axios.get("api/");
-
-  return data;
-};
+export * from "./login";
+export * from "./company";

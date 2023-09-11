@@ -6,9 +6,12 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/index",
+    "start:dev": "npm run build && npm run migrate:up && npm run data:import && npm run dev",
     "dev": "nodemon -L -e ts --exec \"npm run build && npm start\"",
     "migrate": "node-pg-migrate",
-    "migrate:up": "node-pg-migrate up"
+    "migrate:up": "node-pg-migrate up",
+    "data:import": "node ./dist/seeder",
+    "data:destroy": "node ./dist/seeder -d"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +31,7 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "firebase-admin": "^11.10.1",
     "helmet": "^7.0.0",
     "morgan": "^1.10.0",
     "node-pg-migrate": "^6.2.2",

@@ -4,6 +4,8 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 
+import companyRoutes from "./routes/companyRoutes";
+
 const app = express();
 
 app.use(cors());
@@ -31,6 +33,8 @@ connectToDB();
 app.get("/", (req: Request, res: Response) => {
   res.send({ message: "API is running" });
 });
+
+app.use("/companies", companyRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -5,7 +5,7 @@ exports.shorthands = undefined;
 exports.up = (pgm) => {
   pgm.createTable("companies", {
     id: "id",
-    name: { type: "varchar(1000)", notNull: true },
+    name: { type: "varchar(1000)", notNull: true, unique: true },
     country: { type: "varchar(1000)", notNull: true },
     region: { type: "varchar(1000)" },
     address: { type: "varchar(1000)", notNull: true },
@@ -15,6 +15,10 @@ exports.up = (pgm) => {
       notNull: true,
       default: pgm.func("current_timestamp")
     }
+  });
+
+  pgm.addConstraint("companies", "unique_name", {
+    unique: ["name"]
   });
 };
 
