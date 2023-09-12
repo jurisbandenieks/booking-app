@@ -19,3 +19,74 @@ export const getCompanies = async (req: Request, res: Response) => {
     pages: Math.ceil(count.rowCount / pageSize)
   });
 };
+
+// @desc    Insert company
+// @route   POST /api/companies
+// @access  Private admin route
+export const insertCompany = async (req: Request, res: Response) => {
+  const { company } = req.body;
+
+  const companies = await pgClient.query(
+    `INSERT INTO companies (name, country, region, address, phone_number
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *
+    `,
+    [
+      company.name,
+      company.country,
+      company.region,
+      company.address,
+      company.phoneNumber
+    ]
+  );
+
+  res.json({
+    companies: companies.rows
+  });
+};
+
+// @desc    Update company
+// @route   PUT /api/companies/:id
+// @access  Private admin route
+export const updateCompany = async (req: Request, res: Response) => {
+  const { company } = req.body;
+  const { id } = req.params;
+
+  const companies = await pgClient.query(
+    `UPDATE companies SET name=$2, country=$3, region=$4, address=$5, phone_number=$6
+    WHERE id=$1
+    RETURNING *
+    `,
+    [
+      id,
+      company.name,
+      company.country,
+      company.region,
+      company.address,
+      company.phoneNumber
+    ]
+  );
+
+  res.json({
+    companies: companies.rows
+  });
+};
+
+// @desc    DELETE company
+// @route   DELETE /api/companies/:id
+// @access  Private admin route
+export const removeCompany = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const companies = await pgClient.query(
+    `DELETE companies
+      WHERE id=$1
+      RETURNING *
+      `,
+    [id]
+  );
+
+  res.json({
+    companies: companies.rows
+  });
+};

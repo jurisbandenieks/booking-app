@@ -11,3 +11,8 @@ export const fetchCompanies = async (): Promise<CompanyResponse> => {
   const { data } = await axiosHttp.get("/companies/");
   return data;
 };
+
+export const addCompany = async (): Promise<CompanyResponse> => {
+  const { data } = await axiosHttp.post("/companies/");
+  return data;
+};
