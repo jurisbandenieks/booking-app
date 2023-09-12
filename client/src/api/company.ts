@@ -1,6 +1,5 @@
-import axios from "axios";
-import { auth } from "../config";
 import { Company } from "../types/company";
+import axiosHttp from "./http";
 
 type CompanyResponse = {
   companies: Company[];
@@ -9,11 +8,6 @@ type CompanyResponse = {
 };
 
 export const fetchCompanies = async (): Promise<CompanyResponse> => {
-  const token = await auth.currentUser?.getIdToken();
-
-  const { data } = await axios.get("/api/companies/", {
-    headers: { Authorization: token }
-  });
-
+  const { data } = await axiosHttp.get("/companies/");
   return data;
 };
