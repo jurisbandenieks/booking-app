@@ -2,8 +2,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { AddCompanyDialog } from "./AddCompanyDialog";
 import { useState } from "react";
-import { useQuery } from "react-query";
-import { fetchCompanies } from "../../api";
+import { useCompaniesFetch } from "../../api";
 
 const columns: GridColDef[] = [
   {
@@ -48,7 +47,7 @@ const columns: GridColDef[] = [
 
 export const Admin = () => {
   const [open, setOpen] = useState(false);
-  const { data, isLoading, error } = useQuery("companyData", fetchCompanies);
+  const { data } = useCompaniesFetch();
 
   console.log(data);
 

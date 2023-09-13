@@ -41,13 +41,11 @@ export const Login = () => {
     password
   }) => {
     try {
-      let res;
       if (isRegister) {
-        res = await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, email, password);
       } else {
-        res = await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, email, password);
       }
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -55,8 +53,7 @@ export const Login = () => {
 
   const signInWithGoogle = async () => {
     try {
-      const res = await signInWithRedirect(auth, googleProvider);
-      console.log(res);
+      await signInWithRedirect(auth, googleProvider);
     } catch (error) {
       console.error(error);
     }
@@ -64,8 +61,7 @@ export const Login = () => {
 
   const signInWithFacebook = async () => {
     try {
-      const res = await signInWithRedirect(auth, facebookProvider);
-      console.log(res);
+      await signInWithRedirect(auth, facebookProvider);
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +99,7 @@ export const Login = () => {
             id="email-input"
             label="Email"
             variant="outlined"
-            type="text"
+            type="email"
             error={!!errors.email}
             margin="normal"
             {...register("email", { required: true })}

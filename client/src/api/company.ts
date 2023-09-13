@@ -1,3 +1,4 @@
+import { useQuery } from "react-query";
 import { Company } from "../types/company";
 import axiosHttp from "./http";
 
@@ -7,12 +8,18 @@ type CompanyResponse = {
   pages: number;
 };
 
-export const fetchCompanies = async (): Promise<CompanyResponse> => {
-  const { data } = await axiosHttp.get("/companies/");
-  return data;
+export const useCompaniesFetch = () => {
+  return useQuery<CompanyResponse, Error>({
+    queryKey: ["posts"],
+    queryFn: (): Promise<CompanyResponse> =>
+      axiosHttp.get<CompanyResponse>("/companies/").then((res) => res.data)
+  });
 };
 
-export const addCompany = async (): Promise<CompanyResponse> => {
-  const { data } = await axiosHttp.post("/companies/");
+export const addCompany = async (
+  company: Company
+): Promise<CompanyResponse> => {
+  console.log(company);
+  const { data } = await axiosHttp.post("/companies/", company);
   return data;
 };
