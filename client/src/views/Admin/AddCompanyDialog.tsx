@@ -7,44 +7,31 @@ import {
   DialogActions,
   Button
 } from "@mui/material";
-import { addCompany } from "../../api";
+import { Company } from "../../types/company";
 
 export type Props = {
   open: boolean;
   onClose: () => void;
+  onUpdate: (data: Company) => void;
 };
 
-type Inputs = {
-  name: string;
-  country: string;
-  region: string;
-  address: string;
-  phoneNumber: string;
-};
-
-export const AddCompanyDialog: React.FC<Props> = ({ onClose, open }) => {
+export const AddCompanyDialog: React.FC<Props> = ({
+  onClose,
+  onUpdate,
+  open
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<Inputs>();
+  } = useForm<Company>();
 
-  const handleClose = () => {
-    onClose();
-  };
-
-  const registerCompany: SubmitHandler<Inputs> = async (companyInputs) => {
-    try {
-      const res = await addCompany(companyInputs);
-      handleClose();
-      console.log(res);
-    } catch (error) {
-      console.error(error);
-    }
+  const registerCompany: SubmitHandler<Company> = (companyInputs) => {
+    onUpdate(companyInputs);
   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={onClose} open={open}>
       <DialogTitle>Add Company</DialogTitle>
       <DialogContent>
         <Box
@@ -109,8 +96,8 @@ export const AddCompanyDialog: React.FC<Props> = ({ onClose, open }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button type="submit">Register</Button>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSubmit(registerCompany)}>Register</Button>
       </DialogActions>
     </Dialog>
   );

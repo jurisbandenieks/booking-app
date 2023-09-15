@@ -7,18 +7,19 @@ import pgClient from "../config/db";
 // @access  Private admin route
 export const getCompanies = asyncHandler(
   async (req: Request, res: Response) => {
-    const pageSize = 10;
-    const page = Number(req.query.pageNumber) || 1;
+    const pageSize = Number(req.query?.pageSize ?? 5);
+    const page = Number(req.query?.page ?? 0);
 
-    const companies = await pgClient.query("SELECT * FROM companies LIMIT $1", [
-      pageSize
-    ]);
+    const companies = await pgClient.query(
+      "SELECT * FROM companies LIMIT $1 OFFSET $2",
+      [pageSize, pageSize * page]
+    );
     const count = await pgClient.query("SELECT count(*) from companies");
 
     res.json({
       companies: companies.rows,
       page,
-      pages: Math.ceil(count.rows[0].count / pageSize)
+      total: Number(count.rows[0].count)
     });
   }
 );
@@ -28,11 +29,11 @@ export const getCompanies = asyncHandler(
 // @access  Private admin route
 export const insertCompany = asyncHandler(
   async (req: Request, res: Response) => {
-    const { company } = req.body;
+    const { body: company } = req;
 
     try {
       const companies = await pgClient.query(
-        `INSERT INTO companies (name, country, region, address, phone_number
+        `INSERT INTO companies (name, country, region, address, phone_number)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *
       `,

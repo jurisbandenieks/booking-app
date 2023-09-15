@@ -2,7 +2,8 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { AddCompanyDialog } from "./AddCompanyDialog";
 import { useState } from "react";
-import { useCompaniesFetch } from "../../api";
+import { useAddCompany, useCompaniesFetch } from "../../api";
+import { Company } from "../../types/company";
 
 const columns: GridColDef[] = [
   {
@@ -45,31 +46,55 @@ const columns: GridColDef[] = [
   // }
 ];
 
+export type PaginationModel = {
+  pageSize: number;
+  page: number;
+};
+
 export const Admin = () => {
   const [open, setOpen] = useState(false);
-  const { data } = useCompaniesFetch();
+  const [paginationModel, setPaginationModel] = useState<PaginationModel>({
+    pageSize: 5,
+    page: 0
+  });
+  const { data, isLoading } = useCompaniesFetch(paginationModel);
+  const { mutateAsync } = useAddCompany();
 
-  console.log(data);
+  const handleUpdate = async (companyData: Company) => {
+    try {
+      mutateAsync(companyData);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setOpen(false);
+    }
+  };
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ width: "100%" }}>
       <Box>
         <Button onClick={() => setOpen(true)}>Add Company</Button>
       </Box>
       <DataGrid
         rows={data?.companies ?? []}
         columns={columns}
+        loading={isLoading}
         initialState={{
           pagination: {
-            paginationModel: {
-              pageSize: 5
-            }
+            paginationModel
           }
         }}
-        pageSizeOptions={[5]}
+        onPaginationModelChange={setPaginationModel}
+        paginationMode="server"
+        pageSizeOptions={[5, 10, 15, 20]}
+        rowCount={data?.total ?? 0}
         disableRowSelectionOnClick
       />
-      <AddCompanyDialog open={open} onClose={() => setOpen(false)} />
+      <AddCompanyDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        onUpdate={handleUpdate}
+      />
     </Box>
   );
 };
