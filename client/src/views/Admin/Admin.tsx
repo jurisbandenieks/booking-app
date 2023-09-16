@@ -1,50 +1,10 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { AddCompanyDialog } from "./AddCompanyDialog";
 import { useState } from "react";
 import { useAddCompany, useCompaniesFetch } from "../../api";
 import { Company } from "../../types/company";
-
-const columns: GridColDef[] = [
-  {
-    field: "name",
-    headerName: "Company name",
-    width: 200
-  },
-  {
-    field: "country",
-    headerName: "Country",
-    width: 150,
-    editable: true
-  },
-  {
-    field: "region",
-    headerName: "Region",
-    width: 110,
-    editable: true
-  },
-  {
-    field: "address",
-    headerName: "Address",
-    width: 300,
-    editable: true
-  },
-  {
-    field: "phoneNumber",
-    headerName: "Phone",
-    width: 200,
-    editable: true
-  }
-  // {
-  //   field: "fullName",
-  //   headerName: "Full name",
-  //   description: "This column has a value getter and is not sortable.",
-  //   sortable: false,
-  //   width: 160,
-  //   valueGetter: (params: GridValueGetterParams) =>
-  //     `${params.row.firstName || ""} ${params.row.lastName || ""}`
-  // }
-];
+import { companyColumns } from "./columns";
 
 export type PaginationModel = {
   pageSize: number;
@@ -53,6 +13,7 @@ export type PaginationModel = {
 
 export const Admin = () => {
   const [open, setOpen] = useState(false);
+  const [row, setRow] = useState<Company>();
   const [paginationModel, setPaginationModel] = useState<PaginationModel>({
     pageSize: 5,
     page: 0
@@ -70,14 +31,24 @@ export const Admin = () => {
     }
   };
 
+  const handleDialogOpen = (e: GridRowParams<Company>) => {
+    setRow(e.row);
+    setOpen(true);
+  };
+
+  const handleOpenDialog = () => {
+    setRow(undefined);
+    setOpen(true);
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box>
-        <Button onClick={() => setOpen(true)}>Add Company</Button>
+        <Button onClick={handleOpenDialog}>Add Company</Button>
       </Box>
       <DataGrid
         rows={data?.companies ?? []}
-        columns={columns}
+        columns={companyColumns}
         loading={isLoading}
         initialState={{
           pagination: {
@@ -89,9 +60,11 @@ export const Admin = () => {
         pageSizeOptions={[5, 10, 15, 20]}
         rowCount={data?.total ?? 0}
         disableRowSelectionOnClick
+        onRowClick={handleDialogOpen}
       />
       <AddCompanyDialog
         open={open}
+        row={row}
         onClose={() => setOpen(false)}
         onUpdate={handleUpdate}
       />

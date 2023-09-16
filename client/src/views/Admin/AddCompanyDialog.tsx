@@ -8,9 +8,11 @@ import {
   Button
 } from "@mui/material";
 import { Company } from "../../types/company";
+import { useEffect } from "react";
 
 export type Props = {
   open: boolean;
+  row: Company | undefined;
   onClose: () => void;
   onUpdate: (data: Company) => void;
 };
@@ -18,13 +20,19 @@ export type Props = {
 export const AddCompanyDialog: React.FC<Props> = ({
   onClose,
   onUpdate,
+  row,
   open
 }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm<Company>();
+    formState: { errors },
+    reset
+  } = useForm<Company>({ defaultValues: mapDefaultValues(row) });
+
+  useEffect(() => {
+    reset(mapDefaultValues(row));
+  }, [row]);
 
   const registerCompany: SubmitHandler<Company> = (companyInputs) => {
     onUpdate(companyInputs);
@@ -85,7 +93,7 @@ export const AddCompanyDialog: React.FC<Props> = ({
           />
           <TextField
             id="company-phoneNumber-input"
-            label="Company phoneNumber"
+            label="Company phone number"
             variant="outlined"
             type="text"
             error={!!errors.phoneNumber}
@@ -101,4 +109,15 @@ export const AddCompanyDialog: React.FC<Props> = ({
       </DialogActions>
     </Dialog>
   );
+};
+
+const mapDefaultValues = (row: Company | undefined) => {
+  return {
+    id: row?.id ?? undefined,
+    name: row?.name ?? "",
+    country: row?.country ?? "",
+    region: row?.region ?? "",
+    address: row?.address ?? "",
+    phoneNumber: row?.phoneNumber ?? ""
+  };
 };
