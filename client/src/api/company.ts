@@ -29,14 +29,30 @@ export const useCompaniesFetch = (pagination: PaginationModel) => {
 };
 
 const createCompany = (company: Company) => {
+  if (company.id) {
+    return axiosHttp
+      .put<Company>(`/companies/${company.id}`, company)
+      .then((res) => res.data);
+  }
   return axiosHttp
     .post<Company>("/companies/", company)
     .then((res) => res.data);
 };
 
-export const useAddCompany = () => {
+export const useUpsertdCompany = () => {
   return useMutation({
     mutationFn: createCompany,
+    onSuccess: () => queryClient.invalidateQueries("companies")
+  });
+};
+
+const deleteCompany = (id: number) => {
+  return axiosHttp.delete<Company>(`/companies/${id}`).then((res) => res.data);
+};
+
+export const useDeleteCompany = () => {
+  return useMutation({
+    mutationFn: deleteCompany,
     onSuccess: () => queryClient.invalidateQueries("companies")
   });
 };

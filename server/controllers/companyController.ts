@@ -92,7 +92,7 @@ export const removeCompany = asyncHandler(
     const { id } = req.params;
 
     const companies = await pgClient.query(
-      `DELETE companies
+      `DELETE FROM companies
       WHERE id=$1
       RETURNING *
       `,

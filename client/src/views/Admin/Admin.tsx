@@ -2,7 +2,11 @@ import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { AddCompanyDialog } from "./AddCompanyDialog";
 import { useState } from "react";
-import { useAddCompany, useCompaniesFetch } from "../../api";
+import {
+  useUpsertdCompany,
+  useCompaniesFetch,
+  useDeleteCompany
+} from "../../api";
 import { Company } from "../../types/company";
 import { companyColumns } from "./columns";
 
@@ -19,11 +23,12 @@ export const Admin = () => {
     page: 0
   });
   const { data, isLoading } = useCompaniesFetch(paginationModel);
-  const { mutateAsync } = useAddCompany();
+  const { mutateAsync: updateCompany } = useUpsertdCompany();
+  const { mutateAsync: deleteCompany } = useDeleteCompany();
 
   const handleUpdate = async (companyData: Company) => {
     try {
-      mutateAsync(companyData);
+      updateCompany(companyData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -31,7 +36,7 @@ export const Admin = () => {
     }
   };
 
-  const handleDialogOpen = (e: GridRowParams<Company>) => {
+  const handlePrefilledDialog = (e: GridRowParams<Company>) => {
     setRow(e.row);
     setOpen(true);
   };
@@ -39,6 +44,18 @@ export const Admin = () => {
   const handleOpenDialog = () => {
     setRow(undefined);
     setOpen(true);
+  };
+
+  const handleDelete = (id: number | undefined) => {
+    try {
+      if (id) {
+        deleteCompany(id);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setOpen(false);
+    }
   };
 
   return (
@@ -60,13 +77,14 @@ export const Admin = () => {
         pageSizeOptions={[5, 10, 15, 20]}
         rowCount={data?.total ?? 0}
         disableRowSelectionOnClick
-        onRowClick={handleDialogOpen}
+        onRowClick={handlePrefilledDialog}
       />
       <AddCompanyDialog
         open={open}
         row={row}
         onClose={() => setOpen(false)}
         onUpdate={handleUpdate}
+        onDelete={handleDelete}
       />
     </Box>
   );

@@ -15,11 +15,13 @@ export type Props = {
   row: Company | undefined;
   onClose: () => void;
   onUpdate: (data: Company) => void;
+  onDelete: (id: number | undefined) => void;
 };
 
 export const AddCompanyDialog: React.FC<Props> = ({
   onClose,
   onUpdate,
+  onDelete,
   row,
   open
 }) => {
@@ -27,7 +29,8 @@ export const AddCompanyDialog: React.FC<Props> = ({
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    getValues
   } = useForm<Company>({ defaultValues: mapDefaultValues(row) });
 
   useEffect(() => {
@@ -104,6 +107,7 @@ export const AddCompanyDialog: React.FC<Props> = ({
         </Box>
       </DialogContent>
       <DialogActions>
+        <Button onClick={() => onDelete(getValues("id"))}>Delete</Button>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleSubmit(registerCompany)}>Register</Button>
       </DialogActions>
