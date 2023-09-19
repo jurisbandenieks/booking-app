@@ -1,4 +1,9 @@
-import { useMutation, useQuery, QueryClient } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient
+} from "react-query";
 import { Company } from "../types/company";
 import axiosHttp from "./http";
 import { PaginationModel } from "../views/Admin";
@@ -9,7 +14,11 @@ export type CompanyResponse = {
   total: number;
 };
 
-const queryClient = new QueryClient();
+const invalidateCompanies = (queryClient: QueryClient) => {
+  queryClient.invalidateQueries({
+    queryKey: "companies"
+  });
+};
 
 const getCompanies = (pagination: PaginationModel) => {
   return axiosHttp
@@ -23,7 +32,10 @@ const getCompanies = (pagination: PaginationModel) => {
 
 export const useCompaniesFetch = (pagination: PaginationModel) => {
   return useQuery({
-    queryKey: ["companies", pagination.page, pagination.pageSize],
+    queryKey: [
+      "companies",
+      { page: pagination.page, size: pagination.pageSize }
+    ],
     queryFn: () => getCompanies(pagination)
   });
 };
@@ -40,9 +52,10 @@ const createCompany = (company: Company) => {
 };
 
 export const useUpsertdCompany = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createCompany,
-    onSuccess: () => queryClient.invalidateQueries("companies")
+    onSuccess: () => invalidateCompanies(queryClient)
   });
 };
 
@@ -51,8 +64,9 @@ const deleteCompany = (id: number) => {
 };
 
 export const useDeleteCompany = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteCompany,
-    onSuccess: () => queryClient.invalidateQueries("companies")
+    onSuccess: () => invalidateCompanies(queryClient)
   });
 };

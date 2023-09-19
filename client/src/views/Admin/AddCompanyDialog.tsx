@@ -9,22 +9,18 @@ import {
 } from "@mui/material";
 import { Company } from "../../types/company";
 import { useEffect } from "react";
+import { useDeleteCompany, useUpsertdCompany } from "../../api";
 
 export type Props = {
   open: boolean;
   row: Company | undefined;
   onClose: () => void;
-  onUpdate: (data: Company) => void;
-  onDelete: (id: number | undefined) => void;
 };
 
-export const AddCompanyDialog: React.FC<Props> = ({
-  onClose,
-  onUpdate,
-  onDelete,
-  row,
-  open
-}) => {
+export const AddCompanyDialog: React.FC<Props> = ({ onClose, row, open }) => {
+  const { mutateAsync: updateCompany } = useUpsertdCompany();
+  const { mutateAsync: deleteCompany } = useDeleteCompany();
+
   const {
     register,
     handleSubmit,
@@ -38,7 +34,26 @@ export const AddCompanyDialog: React.FC<Props> = ({
   }, [row]);
 
   const registerCompany: SubmitHandler<Company> = (companyInputs) => {
-    onUpdate(companyInputs);
+    try {
+      updateCompany(companyInputs);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      onClose();
+    }
+  };
+
+  const removeCompany = () => {
+    const id = getValues("id");
+    try {
+      if (!!id && id >= 0) {
+        deleteCompany(id);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      onClose();
+    }
   };
 
   return (
@@ -107,7 +122,7 @@ export const AddCompanyDialog: React.FC<Props> = ({
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => onDelete(getValues("id"))}>Delete</Button>
+        <Button onClick={removeCompany}>Delete</Button>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleSubmit(registerCompany)}>Register</Button>
       </DialogActions>
