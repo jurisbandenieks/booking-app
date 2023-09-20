@@ -140,5 +140,12 @@ export const users: User[] = [
     profilePicture: "https://example.com/liammoore.jpg",
     phoneNumber: "+0001112222",
     email: "liam@example.com"
+  },
+  {
+    firstName: "Test",
+    lastName: "Test",
+    profilePicture: "https://example.com/liammoore.jpg",
+    phoneNumber: "+0001112222",
+    email: "test1@test.com"
   }
 ];

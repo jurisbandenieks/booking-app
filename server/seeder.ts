@@ -30,6 +30,11 @@ const importData = async () => {
       );
     }
 
+    await pgClient.query(
+      "INSERT INTO admins (scopes, user_id, company_id) VALUES ($1, (SELECT id FROM users WHERE email='test1@test.com'), (SELECT id FROM companies WHERE name='Test'))",
+      [["read.companies", "write.companies", "read.users", "write.users"]]
+    );
+
     console.log("Data imported!");
   } catch (error) {
     console.error(`${error}`);

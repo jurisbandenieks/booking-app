@@ -17,7 +17,7 @@ exports.up = (pgm) => {
     }
   });
 
-  pgm.addConstraint("companies", "unique_name", {
+  pgm.addConstraint("companies", "unique_company_name", {
     unique: ["name"]
   });
 };

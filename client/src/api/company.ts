@@ -4,12 +4,12 @@ import {
   useQuery,
   useQueryClient
 } from "react-query";
-import { Company } from "../types/company";
+import { CompanyModel } from "../types/company";
 import axiosHttp from "./http";
 import { PaginationModel } from "../views/Admin";
 
 export type CompanyResponse = {
-  companies: Company[];
+  companies: CompanyModel[];
   page: number;
   total: number;
 };
@@ -40,14 +40,14 @@ export const useCompaniesFetch = (pagination: PaginationModel) => {
   });
 };
 
-const createCompany = (company: Company) => {
+const createCompany = (company: CompanyModel) => {
   if (company.id) {
     return axiosHttp
-      .put<Company>(`/companies/${company.id}`, company)
+      .put<CompanyModel>(`/companies/${company.id}`, company)
       .then((res) => res.data);
   }
   return axiosHttp
-    .post<Company>("/companies/", company)
+    .post<CompanyModel>("/companies/", company)
     .then((res) => res.data);
 };
 
@@ -60,7 +60,9 @@ export const useUpsertdCompany = () => {
 };
 
 const deleteCompany = (id: number) => {
-  return axiosHttp.delete<Company>(`/companies/${id}`).then((res) => res.data);
+  return axiosHttp
+    .delete<CompanyModel>(`/companies/${id}`)
+    .then((res) => res.data);
 };
 
 export const useDeleteCompany = () => {

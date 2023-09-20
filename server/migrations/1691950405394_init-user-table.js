@@ -54,5 +54,9 @@ exports.up = (pgm) => {
       default: pgm.func("current_timestamp")
     }
   });
+
+  pgm.addConstraint("users", "unique_user_email", {
+    unique: ["email"]
+  });
 };
 exports.down = (pgm) => {};

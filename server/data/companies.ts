@@ -154,5 +154,12 @@ export const companies: Company[] = [
     region: "Midwest",
     address: "Sioux Falls, SD",
     phoneNumber: "1-605-271-7172"
+  },
+  {
+    name: "Test",
+    country: "USA",
+    region: "Midwest",
+    address: "Test, CO",
+    phoneNumber: "1-605-271-7172"
   }
 ];
