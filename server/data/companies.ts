@@ -1,6 +1,6 @@
 import Company from "../models/Company";
 
-const companies: Company[] = [
+export const companies: Company[] = [
   {
     name: "Troon Golf",
     country: "USA",
@@ -156,5 +156,3 @@ const companies: Company[] = [
     phoneNumber: "1-605-271-7172"
   }
 ];
-
-export default companies;

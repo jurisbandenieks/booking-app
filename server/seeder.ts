@@ -1,6 +1,6 @@
 import pgClient from "./config/db";
 
-import companies from "./data/companies";
+import { companies, users } from "./data";
 
 const importData = async () => {
   try {
@@ -13,6 +13,19 @@ const importData = async () => {
           company.region,
           company.address,
           company.phoneNumber
+        ]
+      );
+    }
+
+    for (const user of users) {
+      await pgClient.query(
+        "INSERT INTO users (first_name, last_name, profile_picture, phone_number, email) VALUES ($1, $2, $3, $4, $5)",
+        [
+          user.firstName,
+          user.lastName,
+          user.profilePicture,
+          user.phoneNumber,
+          user.email
         ]
       );
     }
