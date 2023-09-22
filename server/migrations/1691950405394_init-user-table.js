@@ -33,7 +33,7 @@ exports.up = (pgm) => {
     }
   });
 
-  pgm.createTable("admins", {
+  pgm.createTable("owners", {
     id: "id",
     scopes: { type: "text[]", notNull: true },
     user_id: {
@@ -46,6 +46,21 @@ exports.up = (pgm) => {
       type: "integer",
       notNull: true,
       references: '"companies"',
+      onDelete: "cascade"
+    },
+    created_at: {
+      type: "timestamp",
+      notNull: true,
+      default: pgm.func("current_timestamp")
+    }
+  });
+
+  pgm.createTable("admins", {
+    id: "id",
+    user_id: {
+      type: "integer",
+      notNull: true,
+      references: '"users"',
       onDelete: "cascade"
     },
     created_at: {
