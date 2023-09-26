@@ -3,24 +3,20 @@ import { Box, Button } from "@mui/material";
 import { AddCompanyDialog } from "./AddCompanyDialog";
 import { useState } from "react";
 import { useCompaniesFetch } from "../../api";
-import { Company } from "../../types/company";
+import { CompanyModel } from "../../types/company";
 import { companyColumns } from "./columns";
-
-export type PaginationModel = {
-  pageSize: number;
-  page: number;
-};
+import { PaginationModel } from "../../types";
 
 export const Admin = () => {
   const [open, setOpen] = useState(false);
-  const [row, setRow] = useState<Company>();
+  const [row, setRow] = useState<CompanyModel>();
   const [paginationModel, setPaginationModel] = useState<PaginationModel>({
     pageSize: 5,
     page: 0
   });
   const { data, isLoading } = useCompaniesFetch(paginationModel);
 
-  const handlePrefilledDialog = (e: GridRowParams<Company>) => {
+  const handlePrefilledDialog = (e: GridRowParams<CompanyModel>) => {
     setRow(e.row);
     setOpen(true);
   };

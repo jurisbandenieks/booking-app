@@ -4,15 +4,9 @@ import {
   useQuery,
   useQueryClient
 } from "react-query";
-import { CompanyModel } from "../types/company";
-import axiosHttp from "./http";
-import { PaginationModel } from "../views/Admin";
-
-export type CompanyResponse = {
-  companies: CompanyModel[];
-  page: number;
-  total: number;
-};
+import { CompanyModel, CompanyResponse } from "../types/company";
+import axiosHttp from "./api-http";
+import { PaginationModel } from "../types";
 
 const invalidateCompanies = (queryClient: QueryClient) => {
   queryClient.invalidateQueries({

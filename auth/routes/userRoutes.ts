@@ -1,8 +1,9 @@
 import express from "express";
-import { insertUser } from "../controllers/userController.js";
+import { getUser, insertUser } from "../controllers/userController.js";
+import { verifyToken } from "../middleware.js";
 
 const router = express.Router();
 
-router.route("/user-created").post(insertUser);
+router.route("/user").post(insertUser).get(verifyToken, getUser);
 
 export default router;

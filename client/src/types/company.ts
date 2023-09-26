@@ -6,3 +6,9 @@ export type CompanyModel = {
   address: string;
   phoneNumber: string;
 };
+
+export type CompanyResponse = {
+  companies: CompanyModel[];
+  page: number;
+  total: number;
+};

@@ -26,12 +26,7 @@ const connectToDB = async () => {
 };
 connectToDB();
 
-// endpoints
-app.get("/", verifyToken, (req: Request, res: Response) => {
-  res.send({ message: "Auth is running" });
-});
-
-app.use("/users", userRoutes);
+app.use("/", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
