@@ -42,8 +42,8 @@ export const getUser = async (req: RequestWithUser, res: Response) => {
   `;
   const companyQueryText = `SELECT c.name, c.country, c.region, c.address, c.phone_number
     FROM users u
-    JOIN owners o ON u.id= a.user_id,
-    JOIN companies c ON c.id=a.company_id
+    JOIN owners o ON u.id=o.user_id
+    JOIN companies c ON c.id=o.company_id
     WHERE u.email=$1;
   `;
   const values = [user?.email];

@@ -2,7 +2,7 @@ import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { AddCompanyDialog } from "./AddCompanyDialog";
 import { useState } from "react";
-import { useCompaniesFetch } from "../../api";
+import { useCompaniesFetch, useFetchUser } from "../../api";
 import { CompanyModel } from "../../types/company";
 import { companyColumns } from "./columns";
 import { PaginationModel } from "../../types";
@@ -15,6 +15,9 @@ export const Admin = () => {
     page: 0
   });
   const { data, isLoading } = useCompaniesFetch(paginationModel);
+  const { data: userData } = useFetchUser();
+
+  console.log(userData);
 
   const handlePrefilledDialog = (e: GridRowParams<CompanyModel>) => {
     setRow(e.row);
